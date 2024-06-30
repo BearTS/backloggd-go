@@ -31,25 +31,8 @@ func main() {
 	// 	log.Fatal(err)
 	// }
 
-	req := sdk.LogReq{
-		Slug:    "metroid-dread",
-		LogType: sdk.Played,
-		Enable:  true,
-	}
-
-	err = client.LogGame(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	req2 := sdk.LogStatusReq{
-		Slug:   "metroid-dread",
-		Status: sdk.Mastered,
-	}
-
-	err = client.LogStatus(req2)
-	if err != nil {
-		log.Fatal(err)
-	}
+	data, _ := client.UserGamesWishlist()
+	log.Println(data)
+	log.Println(len(*data))
 
 }

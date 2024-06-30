@@ -14,10 +14,10 @@ var (
 	baseURL             = "https://backloggd.com"
 	signInURL           = baseURL + "/users/sign_in"
 	settingsURL         = baseURL + "/settings"
-	usersURL            = baseURL + "/users/%s"                // %s = username
-	autocompleteJsonURL = baseURL + "/autocomplete.json"       // + "?query=" + query
-	wishlistURL         = baseURL + "/u/" + "%s" + "/wishlist" // %s = username
-	gamesURL            = baseURL + "/games/%s/"               // %s = slug of the game
+	usersURL            = baseURL + "/users/%s"                         // %s = username
+	autocompleteJsonURL = baseURL + "/autocomplete.json"                // + "?query=" + query
+	userGamesURL        = baseURL + "/u/" + "%s" + "/games/%s/type:%s/" // %s = username, %s = sort, %s = type
+	gamesURL            = baseURL + "/games/%s/"                        // %s = slug of the game
 	logURL              = baseURL + "/log/"
 	logStatusURL        = baseURL + "/log/status"
 )

@@ -3,8 +3,12 @@ package sdk
 // Gets the user's current playiing
 func (sdk *BackloggdSDK) UserGamesBacklog() (*[]Game, error) {
 	query := GamesQueryReq{
-		Username: sdk.username,
-		ListType: UserGamesListTypeBacklog,
+		Username: sdk.Username,
+		Filter: GamesQueryFilter{
+			ListType: []GamesListType{
+				UserGamesListTypeBacklog,
+			},
+		},
 		PageSort: UserGamesQueryPageSortWhenAdded,
 	}
 

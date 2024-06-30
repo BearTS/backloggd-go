@@ -63,7 +63,7 @@ func (sdk *BackloggdSDK) UpdateUser(userData User) error {
 	csrfToken, _ := doc.Find("meta[name='csrf-token']").Attr("content")
 
 	doc.Find("button#save-profile-btn").Each(func(i int, s *goquery.Selection) {
-		sdk.userID, _ = s.Attr("user_id")
+		sdk.UserID, _ = s.Attr("user_id")
 	})
 
 	form := new(bytes.Buffer)
@@ -101,7 +101,7 @@ func (sdk *BackloggdSDK) UpdateUser(userData User) error {
 	w.Close()
 
 	// Step 2: Perform POST request to update user
-	req, err = http.NewRequest("PATCH", fmt.Sprintf(usersURL, sdk.userID), form)
+	req, err = http.NewRequest("PATCH", fmt.Sprintf(usersURL, sdk.UserID), form)
 	if err != nil {
 		return err
 	}

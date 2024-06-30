@@ -6,27 +6,13 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/BearTS/backloggd-go/enums"
 	"github.com/PuerkitoBio/goquery"
 )
 
-type LogStatus string
-
-const (
-	Completed             LogStatus = "0"
-	Mastered              LogStatus = "1"
-	Abandoned             LogStatus = "2"
-	Retired               LogStatus = "3"
-	Shelved               LogStatus = "4"
-	PlayedNothingSpecific LogStatus = "5"
-)
-
-func (s LogStatus) String() string {
-	return string(s)
-}
-
 type LogStatusReq struct {
 	Slug   string
-	Status LogStatus
+	Status enums.GameStatus
 }
 
 func (sdk *BackloggdSDK) LogStatus(sr LogStatusReq) error {
@@ -74,7 +60,7 @@ func (sdk *BackloggdSDK) LogStatus(sr LogStatusReq) error {
 	})
 
 	// Now change the status
-	var reqByte = []byte(fmt.Sprintf("game_id=%s&status_id=%s", gameID, sr.Status))
+	var reqByte = []byte(fmt.Sprintf("game_id=%s&status_id=%d", gameID, sr.Status.Int()))
 
 	// POST To get the status
 	req, err = http.NewRequest("PATCH", logStatusURL, bytes.NewBuffer(reqByte))

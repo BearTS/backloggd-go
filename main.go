@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/BearTS/backloggd-go/sdk"
@@ -30,9 +31,21 @@ func main() {
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
+	query := sdk.GamesQueryReq{
+		Username: client.Username,
+		Filter: sdk.GamesQueryFilter{
+			ListType: []sdk.GamesListType{
+				sdk.UserGamesListTypePlayed,
+				sdk.UserGamesListTypePlaying,
+			},
+		}, PageSort: sdk.UserGamesQueryPageSortWhenAdded,
+	}
 
-	data, _ := client.UserGamesWishlist()
-	log.Println(data)
-	log.Println(len(*data))
+	games, err := client.GetGamesListFromUserPage(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(len(*games))
 
 }

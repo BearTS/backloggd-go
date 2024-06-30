@@ -14,10 +14,10 @@ var (
 	baseURL             = "https://backloggd.com"
 	signInURL           = baseURL + "/users/sign_in"
 	settingsURL         = baseURL + "/settings"
-	usersURL            = baseURL + "/users/%s"                         // %s = username
-	autocompleteJsonURL = baseURL + "/autocomplete.json"                // + "?query=" + query
-	userGamesURL        = baseURL + "/u/" + "%s" + "/games/%s/type:%s/" // %s = username, %s = sort, %s = type
-	gamesURL            = baseURL + "/games/%s/"                        // %s = slug of the game
+	usersURL            = baseURL + "/users/%s"                    // %s = username
+	autocompleteJsonURL = baseURL + "/autocomplete.json"           // + "?query=" + query
+	userGamesURL        = baseURL + "/u/" + "%s" + "/games/%s/%s/" // %s = username, %s = sort, %s = filter
+	gamesURL            = baseURL + "/games/%s/"                   // %s = slug of the game
 	logURL              = baseURL + "/log/"
 	logStatusURL        = baseURL + "/log/status"
 )
@@ -26,8 +26,8 @@ var (
 type BackloggdSDK struct {
 	Client    *http.Client
 	Jar       *cookiejar.PersistentJar
-	username  string
-	userID    string
+	Username  string
+	UserID    string
 	csrfToken string
 }
 
@@ -58,7 +58,7 @@ func NewBackloggdSDK(username, password string) (*BackloggdSDK, error) {
 		Jar: jar,
 	}
 	c.Jar = jar
-	c.username = username
+	c.Username = username
 
 	setUserId := func(c *BackloggdSDK) error {
 		req, err := http.NewRequest("GET", settingsURL, nil)
@@ -97,10 +97,10 @@ func NewBackloggdSDK(username, password string) (*BackloggdSDK, error) {
 		c.csrfToken, _ = doc.Find("meta[name='csrf-token']").Attr("content")
 
 		doc.Find("button#save-profile-btn").Each(func(i int, s *goquery.Selection) {
-			c.userID, _ = s.Attr("user_id")
+			c.UserID, _ = s.Attr("user_id")
 		})
 
-		if c.userID == "" {
+		if c.UserID == "" {
 			return errors.New("could not find user id")
 		}
 		if c.csrfToken == "" {

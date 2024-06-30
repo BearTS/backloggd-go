@@ -3,9 +3,12 @@ package sdk
 // Gets the user's current playiing
 func (sdk *BackloggdSDK) UserGamesPlayed() (*[]Game, error) {
 	query := GamesQueryReq{
-		Username: sdk.username,
-		ListType: UserGamesListTypePlayed,
-		PageSort: UserGamesQueryPageSortWhenAdded,
+		Username: sdk.Username,
+		Filter: GamesQueryFilter{
+			ListType: []GamesListType{
+				UserGamesListTypePlayed,
+			},
+		}, PageSort: UserGamesQueryPageSortWhenAdded,
 	}
 
 	games, err := sdk.GetGamesListFromUserPage(query)

@@ -9,9 +9,12 @@ type Game struct {
 // Gets the user's games wishlist
 func (sdk *BackloggdSDK) UserGamesWishlist() (*[]Game, error) {
 	query := GamesQueryReq{
-		Username: sdk.username,
-		ListType: UserGamesListTypeWishlist,
-		PageSort: UserGamesQueryPageSortWhenAdded,
+		Username: sdk.Username,
+		Filter: GamesQueryFilter{
+			ListType: []GamesListType{
+				UserGamesListTypeWishlist,
+			},
+		}, PageSort: UserGamesQueryPageSortWhenAdded,
 	}
 
 	games, err := sdk.GetGamesListFromUserPage(query)

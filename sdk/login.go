@@ -84,7 +84,7 @@ func (sdk *BackloggdSDK) Login(username, password string) error {
 		return fmt.Errorf("login failed with status code %d", resp.StatusCode)
 	}
 
-	sdk.username = username
+	sdk.Username = username
 
 	// Successfully logged in
 	return nil

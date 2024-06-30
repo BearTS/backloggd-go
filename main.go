@@ -32,12 +32,22 @@ func main() {
 	// }
 
 	req := sdk.LogReq{
-		Slug:    "red-dead-redemption-2",
+		Slug:    "metroid-dread",
 		LogType: sdk.Played,
-		Enable:  false,
+		Enable:  true,
 	}
 
 	err = client.LogGame(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req2 := sdk.LogStatusReq{
+		Slug:   "metroid-dread",
+		Status: sdk.Mastered,
+	}
+
+	err = client.LogStatus(req2)
 	if err != nil {
 		log.Fatal(err)
 	}

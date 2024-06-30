@@ -14,9 +14,11 @@ var (
 	baseURL             = "https://backloggd.com"
 	signInURL           = baseURL + "/users/sign_in"
 	settingsURL         = baseURL + "/settings"
-	userURL             = baseURL + "/users/"                  // + user_id
+	usersURL            = baseURL + "/users/%s"                // %s = username
 	autocompleteJsonURL = baseURL + "/autocomplete.json"       // + "?query=" + query
 	wishlistURL         = baseURL + "/u/" + "%s" + "/wishlist" // %s = username
+	gamesURL            = baseURL + "/games/%s/"               // %s = slug of the game
+	logURL              = baseURL + "/log/"
 )
 
 // BackloggdSDK provides methods to interact with the Backloggd website

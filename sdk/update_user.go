@@ -101,7 +101,7 @@ func (sdk *BackloggdSDK) UpdateUser(userData User) error {
 	w.Close()
 
 	// Step 2: Perform POST request to update user
-	req, err = http.NewRequest("PATCH", userURL+sdk.userID, form)
+	req, err = http.NewRequest("PATCH", fmt.Sprintf(usersURL, sdk.userID), form)
 	if err != nil {
 		return err
 	}

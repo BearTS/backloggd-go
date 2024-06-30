@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/BearTS/backloggd-go/sdk"
@@ -32,10 +31,15 @@ func main() {
 	// 	log.Fatal(err)
 	// }
 
-	data, err := client.Wishlist()
+	req := sdk.LogReq{
+		Slug:    "red-dead-redemption-2",
+		LogType: sdk.Wishlist,
+		Enable:  false,
+	}
+
+	err = client.LogGame(req)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(len(*data))
 }

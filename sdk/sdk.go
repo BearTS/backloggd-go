@@ -16,6 +16,7 @@ var (
 	settingsURL         = baseURL + "/settings"
 	userURL             = baseURL + "/users/"            // + user_id
 	autocompleteJsonURL = baseURL + "/autocomplete.json" // + "?query=" + query
+	wishlistURL         = baseURL + "/wishlist"
 )
 
 // BackloggdSDK provides methods to interact with the Backloggd website

@@ -1,11 +1,18 @@
 package main
 
+import (
+	"fmt"
+	"log"
+
+	"github.com/BearTS/backloggd-go/sdk"
+)
+
 func main() {
 	// Create a new instance of the BackloggdSDK
-	// client, err := sdk.NewBackloggdSDK("test", "test")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	client, err := sdk.NewBackloggdSDK("test", "test")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Example usage: Login with credentials
 	// if err != nil {
@@ -25,5 +32,10 @@ func main() {
 	// 	log.Fatal(err)
 	// }
 
-	// fmt.Println(data)
+	data, err := client.Wishlist()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(len(*data))
 }

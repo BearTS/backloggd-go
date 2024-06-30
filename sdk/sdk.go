@@ -11,18 +11,21 @@ import (
 )
 
 var (
-	baseURL             = "https://backloggd.com"
-	signInURL           = baseURL + "/users/sign_in"
-	settingsURL         = baseURL + "/settings"
-	usersURL            = baseURL + "/users/%s"                    // %s = username
-	autocompleteJsonURL = baseURL + "/autocomplete.json"           // + "?query=" + query
-	userGamesURL        = baseURL + "/u/" + "%s" + "/games/%s/%s/" // %s = username, %s = sort, %s = filter
-	gamesURL            = baseURL + "/games/%s/"                   // %s = slug of the game
-	logURL              = baseURL + "/log/"
-	logStatusURL        = baseURL + "/log/status"
-	newListURL          = baseURL + "/api/new-list/"
-	editListURL         = baseURL + "/u/" + "%s" + "/list/%s/edit/" // %s = username, %s = slug
-	editListApiURL      = baseURL + "/api/list/%s/"                 // %s = list id
+	baseURL               = "https://backloggd.com"
+	signInURL             = baseURL + "/users/sign_in"
+	settingsURL           = baseURL + "/settings"
+	usersURL              = baseURL + "/users/%s"                    // %s = username
+	autocompleteJsonURL   = baseURL + "/autocomplete.json"           // + "?query=" + query
+	userGamesURL          = baseURL + "/u/" + "%s" + "/games/%s/%s/" // %s = username, %s = sort, %s = filter
+	gamesURL              = baseURL + "/games/%s/"                   // %s = slug of the game
+	logURL                = baseURL + "/log/"
+	logStatusURL          = baseURL + "/log/status"
+	newListURL            = baseURL + "/api/new-list/"
+	editListURL           = baseURL + "/u/" + "%s" + "/list/%s/edit/" // %s = username, %s = list slug
+	logsURL               = baseURL + "/u/" + "%s" + "/logs/%s/"      // %s = username, %s = game slug
+	playthroughDetailsURL = baseURL + "/playthrough/%s"               // %s = playthrough id
+	creatLogAPIURL        = baseURL + "/api/user/%s/log/%s"           // %s = userid, %s = game id
+	editListApiURL        = baseURL + "/api/list/%s/"                 // %s = list id
 )
 
 // BackloggdSDK provides methods to interact with the Backloggd website

@@ -52,7 +52,7 @@ func (sdk *BackloggdSDK) LogStatus(sr LogStatusReq) error {
 	doc.Find(".col" + PlayedButton.String()).Each(func(i int, s *goquery.Selection) {
 		gameID = s.Find("button").AttrOr("game_id", "")
 		if !s.HasClass("btn-play-fill") {
-			err = sdk.LogRequest(Played, gameID)
+			err = sdk.ChangeGameStatus(Played, gameID)
 			if err != nil {
 				return
 			}

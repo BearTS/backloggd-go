@@ -9,30 +9,30 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// LogType can be "playing", "backlog" "wishlist" "play"
+// StatusType can be "playing", "backlog" "wishlist" "play"
 
 // buttons are Playing Played Backlog Wishlist
 
 type LogReq struct {
-	Slug    string
-	LogType LogType
-	Enable  bool
+	Slug       string
+	StatusType StatusType
+	Enable     bool
 }
 
-type LogType string
+type StatusType string
 
 const (
-	Played   LogType = "play"
-	Playing  LogType = "playing"
-	Backlog  LogType = "backlog"
-	Wishlist LogType = "wishlist"
+	Played   StatusType = "play"
+	Playing  StatusType = "playing"
+	Backlog  StatusType = "backlog"
+	Wishlist StatusType = "wishlist"
 )
 
-func (l LogType) String() string {
+func (l StatusType) String() string {
 	return string(l)
 }
 
-func (l LogType) ButtonClass() ButtonClass {
+func (l StatusType) ButtonClass() ButtonClass {
 	switch l {
 	case Played:
 		return PlayedButton
@@ -67,8 +67,7 @@ func (b ButtonClass) String() string {
 	return string(b)
 }
 
-
-func (sdk *BackloggdSDK) LogGame(logReq LogReq) error {
+func (sdk *BackloggdSDK) ChangeStatus(logReq LogReq) error {
 	// Step 1: Perform GET request to get details for the game
 
 	req, err := http.NewRequest("GET", fmt.Sprintf(gamesURL, logReq.Slug), nil)
@@ -109,21 +108,21 @@ func (sdk *BackloggdSDK) LogGame(logReq LogReq) error {
 	// 	</button>
 	// </div>
 
-	doc.Find(".col" + logReq.LogType.ButtonClass().String()).Each(func(i int, s *goquery.Selection) {
+	doc.Find(".col" + logReq.StatusType.ButtonClass().String()).Each(func(i int, s *goquery.Selection) {
 		// the buttons are always present
 		// if the same class contains btn-fill then it is enabled
 		// game_id for when the div class has button-link and logReq.LogType.ButtonClass().String()
 		gameID := s.Find("button").AttrOr("game_id", "")
 		if logReq.Enable {
 			if !s.HasClass("btn-play-fill") {
-				err = sdk.LogRequest(logReq.LogType, gameID)
+				err = sdk.ChangeGameStatus(logReq.StatusType, gameID)
 				if err != nil {
 					return
 				}
 			}
 		} else {
 			if s.HasClass("btn-play-fill") {
-				err = sdk.LogRequest(logReq.LogType, gameID)
+				err = sdk.ChangeGameStatus(logReq.StatusType, gameID)
 				if err != nil {
 					return
 				}
@@ -138,7 +137,7 @@ func (sdk *BackloggdSDK) LogGame(logReq LogReq) error {
 	return nil
 }
 
-func (sdk *BackloggdSDK) LogRequest(logType LogType, gameId string) error {
+func (sdk *BackloggdSDK) ChangeGameStatus(logType StatusType, gameId string) error {
 
 	// application/x-www-form-urlencoded
 
@@ -185,7 +184,7 @@ func (sdk *BackloggdSDK) LogRequest(logType LogType, gameId string) error {
 	}
 
 	if logType != Played && logResp["status"] != "completed " {
-		return fmt.Errorf("Failed to log %s for game %s", logType, gameId)
+		return fmt.Errorf("failed to log %s for game %s", logType, gameId)
 	}
 
 	return nil

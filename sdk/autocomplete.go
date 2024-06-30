@@ -2,7 +2,9 @@ package sdk
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"net/url"
 )
 
 type AutoComplete struct {
@@ -21,7 +23,7 @@ type AutoComplete struct {
 // Example usage: data, err := client.Autocomplete("Spiderman")
 func (sdk *BackloggdSDK) Autocomplete(query string) (*AutoComplete, error) {
 	var ac AutoComplete
-	// Step 1: Perform GET request to obtain autocomplete JSON
+	query = url.QueryEscape(query)
 	req, err := http.NewRequest("GET", autocompleteJsonURL+"?query="+query, nil)
 	if err != nil {
 		return nil, err
@@ -30,6 +32,8 @@ func (sdk *BackloggdSDK) Autocomplete(query string) (*AutoComplete, error) {
 	req.Header.Set("Accept", "application/json, text/javascript, */*; q=0.01")
 	req.Header.Set("Accept-Language", "en-GB,en-US;q=0.9,en;q=0.8")
 	req.Header.Set("Connection", "keep-alive")
+	req.Header.Set("Referer", baseURL)
+	req.Header.Set("Sec-Fetch-Dest", "empty")
 	req.Header.Set("Sec-Fetch-Mode", "cors")
 	req.Header.Set("Sec-Fetch-Site", "same-origin")
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -38,7 +42,6 @@ func (sdk *BackloggdSDK) Autocomplete(query string) (*AutoComplete, error) {
 	req.Header.Set("sec-ch-ua-mobile", "?0")
 	req.Header.Set("sec-ch-ua-platform", `"macOS"`)
 	req.Header.Set("X-CSRF-Token", sdk.csrfToken)
-	req.Header.Set("Referer", settingsURL)
 
 	resp, err := sdk.Client.Do(req)
 	if err != nil {
@@ -46,6 +49,7 @@ func (sdk *BackloggdSDK) Autocomplete(query string) (*AutoComplete, error) {
 	}
 
 	defer resp.Body.Close()
+	fmt.Println(resp.Status)
 	err = json.NewDecoder(resp.Body).Decode(&ac)
 	if err != nil {
 		return nil, err

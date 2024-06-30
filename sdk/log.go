@@ -55,10 +55,10 @@ func (l LogType) ButtonClass() ButtonClass {
 type ButtonClass string
 
 const (
-	PlayingButton ButtonClass = ".playing-btn-container"
+	PlayedButton ButtonClass = ".play-btn-container"
 
 	// enabled if btn-play-fill present
-	PlayedButton   ButtonClass = ".play-btn-container"
+	PlayingButton  ButtonClass = ".playing-btn-container"
 	BacklogButton  ButtonClass = ".backlog-btn-container"
 	WishlistButton ButtonClass = ".wishlist-btn-container"
 )
@@ -114,15 +114,15 @@ func (sdk *BackloggdSDK) LogGame(logReq LogReq) error {
 		// game_id for when the div class has button-link and logReq.LogType.ButtonClass().String()
 		gameID := s.Find("button").AttrOr("game_id", "")
 		if logReq.Enable {
-			if !s.HasClass("btn-play-fill") && logReq.LogType != Played {
-				err = sdk.LogRequest(logReq.LogType.String(), gameID)
+			if !s.HasClass("btn-play-fill") {
+				err = sdk.LogRequest(logReq.LogType, gameID)
 				if err != nil {
 					return
 				}
 			}
 		} else {
-			if s.HasClass("btn-play-fill") && logReq.LogType != Played {
-				err = sdk.LogRequest(logReq.LogType.String(), gameID)
+			if s.HasClass("btn-play-fill") {
+				err = sdk.LogRequest(logReq.LogType, gameID)
 				if err != nil {
 					return
 				}
@@ -137,12 +137,12 @@ func (sdk *BackloggdSDK) LogGame(logReq LogReq) error {
 	return nil
 }
 
-func (sdk *BackloggdSDK) LogRequest(logType string, gameId string) error {
+func (sdk *BackloggdSDK) LogRequest(logType LogType, gameId string) error {
 
 	// application/x-www-form-urlencoded
 
 	// its formdata
-	fmt.Println("Logging game", gameId, logType)
+	fmt.Println("Logging game", gameId, logType.String())
 
 	var reqByte = []byte(fmt.Sprintf("type=%s&game_id=%s", logType, gameId))
 
@@ -183,8 +183,8 @@ func (sdk *BackloggdSDK) LogRequest(logType string, gameId string) error {
 		return err
 	}
 
-	if logResp["status"] != "completed" {
-		return fmt.Errorf("failed to log the game")
+	if logType != Played && logResp["status"] != "completed " {
+		return fmt.Errorf("Failed to log %s for game %s", logType, gameId)
 	}
 
 	return nil

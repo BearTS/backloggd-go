@@ -33,7 +33,7 @@ func main() {
 
 	req := sdk.LogReq{
 		Slug:    "red-dead-redemption-2",
-		LogType: sdk.Wishlist,
+		LogType: sdk.Played,
 		Enable:  false,
 	}
 

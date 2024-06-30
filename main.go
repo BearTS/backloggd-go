@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/BearTS/backloggd-go/sdk"
@@ -31,21 +30,48 @@ func main() {
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
-	query := sdk.GamesQueryReq{
-		Username: client.Username,
-		Filter: sdk.GamesQueryFilter{
-			ListType: []sdk.GamesListType{
-				sdk.UserGamesListTypePlayed,
-				sdk.UserGamesListTypePlaying,
-			},
-		}, PageSort: sdk.UserGamesQueryPageSortWhenAdded,
-	}
+	// query := sdk.GamesQueryReq{
+	// 	Username: client.Username,
+	// 	Filter: sdk.GamesQueryFilter{
+	// 		ListType: []sdk.GamesListType{
+	// 			sdk.UserGamesListTypePlayed,
+	// 			sdk.UserGamesListTypePlaying,
+	// 		},
+	// 	}, PageSort: sdk.UserGamesQueryPageSortWhenAdded,
+	// }
 
-	games, err := client.GetGamesListFromUserPage(query)
+	// games, err := client.GetGamesListFromUserPage(query)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// fmt.Println(len(*games))
+
+	// link, slug, err := client.CreateList()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// log.Println(link)
+	// log.Println(slug)
+
+	listdetails, err := client.GetListDetails("test-list")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(len(*games))
+	newOrder := []sdk.ListGameDetails{listdetails.CurrentOrder[1], listdetails.CurrentOrder[0]}
+
+	// editedOrder
+
+	editReq := sdk.EditListReq{
+		EditOrder: newOrder,
+	}
+
+	det, err := client.EditList(listdetails, editReq)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(det)
 
 }

@@ -20,6 +20,9 @@ var (
 	gamesURL            = baseURL + "/games/%s/"                   // %s = slug of the game
 	logURL              = baseURL + "/log/"
 	logStatusURL        = baseURL + "/log/status"
+	newListURL          = baseURL + "/api/new-list/"
+	editListURL         = baseURL + "/u/" + "%s" + "/list/%s/edit/" // %s = username, %s = slug
+	editListApiURL      = baseURL + "/api/list/%s/"                 // %s = list id
 )
 
 // BackloggdSDK provides methods to interact with the Backloggd website

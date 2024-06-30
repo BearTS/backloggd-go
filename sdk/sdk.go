@@ -35,13 +35,12 @@ type BackloggdSDK struct {
 }
 
 // NewBackloggdSDK creates a new instance of the Backloggd SDK
-func NewBackloggdSDK(username, password string) (*BackloggdSDK, error) {
+func NewBackloggdSDK(username, password string, cookiesSavePath string) (*BackloggdSDK, error) {
 	var c BackloggdSDK
-	cookiesFile := "cookies.json"
-	file, err := os.Open(cookiesFile)
+	file, err := os.Open(cookiesSavePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			file, err = os.Create(cookiesFile)
+			file, err = os.Create(cookiesSavePath)
 			if err != nil {
 				return nil, err
 			}
@@ -52,7 +51,7 @@ func NewBackloggdSDK(username, password string) (*BackloggdSDK, error) {
 	defer file.Close()
 
 	jar := cookiejar.NewPersistentJar(
-		cookiejar.WithFilePath(cookiesFile),
+		cookiejar.WithFilePath(cookiesSavePath),
 		cookiejar.WithAutoSync(true),
 		cookiejar.WithPublicSuffixList(publicsuffix.List),
 	)

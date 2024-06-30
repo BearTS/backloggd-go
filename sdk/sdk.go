@@ -19,6 +19,7 @@ var (
 	wishlistURL         = baseURL + "/u/" + "%s" + "/wishlist" // %s = username
 	gamesURL            = baseURL + "/games/%s/"               // %s = slug of the game
 	logURL              = baseURL + "/log/"
+	logStatusURL        = baseURL + "/log/status"
 )
 
 // BackloggdSDK provides methods to interact with the Backloggd website

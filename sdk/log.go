@@ -67,6 +67,7 @@ func (b ButtonClass) String() string {
 	return string(b)
 }
 
+
 func (sdk *BackloggdSDK) LogGame(logReq LogReq) error {
 	// Step 1: Perform GET request to get details for the game
 

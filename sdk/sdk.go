@@ -14,9 +14,9 @@ var (
 	baseURL             = "https://backloggd.com"
 	signInURL           = baseURL + "/users/sign_in"
 	settingsURL         = baseURL + "/settings"
-	userURL             = baseURL + "/users/"            // + user_id
-	autocompleteJsonURL = baseURL + "/autocomplete.json" // + "?query=" + query
-	wishlistURL         = baseURL + "/wishlist"
+	userURL             = baseURL + "/users/"                  // + user_id
+	autocompleteJsonURL = baseURL + "/autocomplete.json"       // + "?query=" + query
+	wishlistURL         = baseURL + "/u/" + "%s" + "/wishlist" // %s = username
 )
 
 // BackloggdSDK provides methods to interact with the Backloggd website
@@ -55,6 +55,7 @@ func NewBackloggdSDK(username, password string) (*BackloggdSDK, error) {
 		Jar: jar,
 	}
 	c.Jar = jar
+	c.username = username
 
 	setUserId := func(c *BackloggdSDK) error {
 		req, err := http.NewRequest("GET", settingsURL, nil)

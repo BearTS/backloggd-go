@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Create a new instance of the BackloggdSDK
-	client, err := sdk.NewBackloggdSDK("test", "test")
+	client, err := sdk.NewBackloggdSDK("bearts", "test")
 	if err != nil {
 		log.Fatal(err)
 	}
